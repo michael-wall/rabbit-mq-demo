@@ -20,6 +20,7 @@ The POC uses the following github repositories:
 - Deploy the RabbitMQ custom service and configure RabbitMQ
   - The rabbitmq/LCP.json in the repository is pre-configured. It is a StatefulSet service with a volume defined for /var/lib/rabbitmq to retain the RabbitMQ setup after a restart.
   - rabbitmqctl and rabbitmqadmin commands can be run from the RabbitMQ service shell on port 5672.
+  - Build and deploy the rabbitmq custom service in the Liferay PaaS environment.
   - The RabbitMQ administration GUI can be accessed from the browser using HTTPS and port 15672 using the credentials from rabbit-mq-default-user and rabbit-mq-default-pass secrets.
   - Both ports are configured to be external ports.
     - Run these command to create the message queues:
@@ -46,7 +47,7 @@ The POC uses the following github repositories:
   - For convenience the Object Action Client Extension creates 2 OAuths, one a User Agent used by the Client Extension, the other a Headless Server used by the rabbitmqlistener custom service.
   - The Object Name is referenced in the scopes for the OAuth Client Extensions in rabbit-mq-publish\client-extension.yaml.
   - Ensure the publisher and listener are using the same queue...
-  - Build and deploy the client extension.
+  - Build and deploy the rabbitmqpublish client extension in the Liferay PaaS environment.
 
 - Build and deploy the rabbitmqlistener
   - Add the following secrets using the values from the OAuth 2.0 Administration > Rabbit MQ Listener OAuth Application Headless Server
@@ -56,26 +57,27 @@ The POC uses the following github repositories:
   - Copy the jar file into the root of the rabbitmqlistener custom service folder.
   - The rabbitmqlistener/LCP.json in the repository is pre-configured using queue 'demo-queue', 'processed-queue' and 'error-queue'.
   - Ensure the publisher and listener are using the same queue...
-  - Build and deploy the custom service.
+  - Build and deploy the rabbitmqlistener custom service in the Liferay PaaS environment.
 
 - Add the Object Action to the 'RabbitTest'
   - Trigger: On After Add
   - Action: object-action-executor[function#rabbit-mq-publish-object-action]
 
 ## Triggering the Demo ##
-- Check the DXP Cloud Console to confirm the environment is setup, the rabbitmq and rabbitmqlistener custom services are running and the rabbitmqpublisher Client Extension is running.
+- Check the DXP Cloud Console to confirm the environment is setup:
+  - The rabbitmq and rabbitmqlistener custom services are running
+  - The rabbitmqpublisher Client Extension custom service is running.
 - Create a Liferay Objects record using the 'RabbitTest' Object Definition, populating the 'input' field, leaving the 'output' field empty, and Save.
 - This will trigger the Object Action to send a message to the 'demo-queue' queue using the rabbitmypublisher Client Extension Object Action.
 - The Listener class in rabbitmqlistener will listen for the message and when it receives it, it will extract the 'id' and 'input' values and use these to update the 'output' value using the headless REST API PATCH endpoint and the Headless Server OAuth 2 profile.
-- Wait 15 seconds (delay added for demo purposes) and refresh the Objects grid screen. The 'output' field of the Object Record should now be populated by the rabbitmqlistener custom service logic.
-- The rabbitmqpublisher and rabbitmqlistener services have logging to show what is happening.
+- Wait 15 seconds (15 second sleep delay added for demo purposes) and refresh the Objects grid screen. The 'output' field of the Object Record should now be populated by the rabbitmqlistener custom service logic.
+- The rabbitmqpublisher and rabbitmqlistener components have logging to show what is happening.
   - If the message is processed successfully in rabbitmqlistener then it is moved to the 'processed-queue'.
   - If the message is not processed successfully in rabbitmqlistener (e.g. due to an exception or missing JSON field or a non-200 response from the PATCH etc.) then it is moved to the 'error-queue'.
 
 ## Notes ##
 - This is a ‘proof of concept’ that is being provided ‘as is’ without any support coverage or warranty.
-- It was tested in Liferay PaaS with the Client Extension build pipeline feature enabled.
-- It was tested in Liferay DXP QR 2025.Q1.14 using JDK 21 at compile time and runtime.
+- It was tested in Liferay PaaS with the Client Extension build pipeline feature enabled, using Liferay DXP QR 2025.Q1.14 with JDK 21 at compile time and runtime.
   - Ensure the DXP Cloud CI service is compiling with JDK 21.
 - The rabbitmqlistener is deployed as a Liferay PaaS custom service for convenience.
   - In a realworld scenario the listener could be anything as long as it can access the queue etc.
