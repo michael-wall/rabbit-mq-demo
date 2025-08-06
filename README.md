@@ -52,7 +52,7 @@ The POC uses the following github repositories:
   - Add the following secrets using the values from the OAuth 2.0 Administration > Rabbit MQ Listener OAuth Application Headless Server
     - **listener-oauth-client-id**
     - **listener-oauth-client-secret**
-  - Build the com.mw.rabbit.mq.listener.jar-1.0.0.jar jar file (from separate repository)
+  - Build the com.mw.rabbit.mq.listener.jar-1.0.0.jar jar file (from separate repository https://github.com/michael-wall/rabbit-mq-demo-listener)
   - Copy the jar file into the root of the rabbitmqlistener custom service folder.
   - The rabbitmqlistener/LCP.json in the repository is pre-configured using queue 'demo-queue', 'processed-queue' and 'error-queue'.
   - Ensure the publisher and listener are using the same queue...
@@ -69,6 +69,8 @@ The POC uses the following github repositories:
 - The Listener class in rabbitmqlistener will listen for the message and when it receives it, it will extract the 'id' and 'input' values and use these to update the 'output' value using the headless REST API PATCH endpoint and the Headless Server OAuth 2 profile.
 - Wait 15 seconds (delay added for demo purposes) and refresh the Objects grid screen. The 'output' field of the Object Record should now be populated by the rabbitmqlistener custom service logic.
 - The rabbitmqpublisher and rabbitmqlistener services have logging to show what is happening.
+  - If the message is processed successfully in rabbitmqlistener then it is moved to the 'processed-queue'.
+  - If the message is not processed successfully in rabbitmqlistener (e.g. due to an exception or missing JSON field or a non-200 response from the PATCH etc.) then it is moved to the 'error-queue'.
 
 ## Notes ##
 - This is a ‘proof of concept’ that is being provided ‘as is’ without any support coverage or warranty.
