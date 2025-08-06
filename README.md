@@ -4,6 +4,12 @@
 - An Object Action Client Extension publishes a message to a RabbitMQ queue.
 - A 'remote' Spring Boot custom service listens for messages in the queue, processes them and updates the original Object Record.
 
+## Liferay Deployment Approaches ##
+- Although the POC focused in Liferay PaaS, the solution can also be deployed in Liferay SaaS or Liferay Self Hosted:
+  - In Liferay PaaS, the rabbitmq, rabbitmqlistener custom services and the rabbitmqpublish client extension are all deployed as custom services to the environment e.g. prd.
+  - In Liferay SaaS, the rabbitmq, rabbitmqlistener custom services and the rabbitmqpublish client extension are all deployed as custom services to the ext environment e.g. extprd.
+  - In Liferay Self Hosted RabbitMQ can be run as a native Docker container or standalone, rabbitmqlistener can be run as a Docker container or standalone, and rabbitmqpublish can be run as a client extension deployed within the Liferay DXP service. Additional setup is required to run in Liferay Self Hosted.
+
 ## Repositories ##
 The POC uses the following github repositories:
   - https://github.com/michael-wall/rabbit-mq-demo.git - this repository which contains the DXP Cloud Workspace rabbitmq custom service definition, the rabbitmqlistener custom service definition (excluding the compiled jar file) and the rabbit-mq-publish client extension.
