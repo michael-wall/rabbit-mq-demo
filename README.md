@@ -88,8 +88,8 @@ The POC uses the following github repositories:
   - Ensure the DXP Cloud CI service is compiling with JDK 21 otherwise the Client Extension won't compile - see https://learn.liferay.com/w/dxp/cloud/platform-services/continuous-integration#setting-the-jdk-version
 - The rabbitmqlistener class has additional logging for troubleshooting and demonstration purposes only e.g. the OAuth Access Token is logged.
 - The rabbitmqlistener is deployed as a Liferay PaaS custom service for convenience.
-  - In a realworld scenario the listener would be outside of Liferay PaaS.
-  - The use of a custom service shows that it can run completely outside of Liferay DXP, using OAuth 2 and the headless REST APIs to interact with Liferay.
+  - In a realworld scenario the listener would be outside of Liferay PaaS and built with another framework or technologies.
+  - The use of a custom service shows that the listener can run completely outside of Liferay DXP, using OAuth 2 and the headless REST APIs to interact with Liferay DXP.
 - The RabbitMQ queues can be created programatically e.g. the first time they are accessed, and a single set of credentials can be used but sharing a dedicated account with limited permissions for the queue actions is more secure plus the extra setup steps help give a better understanding of the implementation.
   - In a full implementation the publish and subscribe components would likely each use their own credentials.
 - The RabbitMQ ports are intentionally public:
