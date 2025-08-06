@@ -1,0 +1,21 @@
+assemble:
+    -   fromTask: bootJar
+rabbit-mq-publish-object-action:
+    name: Rabbit MQ Publish Object Action
+    oAuth2ApplicationExternalReferenceCode: rabbit-mq-publish-oauth-application-user-agent
+    resourcePath: /object/action/rabbit-mq-publish
+    type: objectAction
+rabbit-mq-publish-oauth-application-user-agent:
+    .serviceAddress: localhost:58081
+    .serviceScheme: http
+    name: Rabbit MQ Publish OAuth Application User Agent
+    scopes:
+        -   c_rabbittest.everything.write
+    type: oAuthApplicationUserAgent
+rabbit-mq-listener-oauth-application-headless-server:
+    .serviceAddress: localhost:58081
+    .serviceScheme: http
+    name: Rabbit MQ Listener OAuth Application Headless Server
+    scopes:
+        -   c_rabbittest.everything.write
+    type: oAuthApplicationHeadlessServer

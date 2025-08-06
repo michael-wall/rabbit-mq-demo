@@ -1,0 +1,36 @@
+{
+	"id": "__PROJECT_ID__",
+	"kind": "Deployment",
+	"cpu": 2,
+	"scale": 1,
+	"memory": 1024,	
+	"env": {
+		"LIFERAY_ROUTES_CLIENT_EXTENSION": "/etc/liferay/lxc/ext-init-metadata",
+		"LIFERAY_ROUTES_DXP": "/etc/liferay/lxc/dxp-metadata",
+		"SPRING_RABBITMQ_HOST": "rabbitmq",
+		"SPRING_RABBITMQ_PORT": "5672",
+		"SPRING_RABBITMQ_USERNAME": "@rabbit-mq-liferay-user",
+		"SPRING_RABBITMQ_PASSWORD": "@rabbit-mq-liferay-pass",
+		"RABBIT_MQ_DEMO_QUEUE_NAME": "demo-queue"		
+	},
+	"environments": {
+		"infra": {
+			"deploy": false
+		}
+	},
+	"livenessProbe": {
+		"httpGet": {
+			"path": "/ready",
+			"port": 58081
+		}
+	},
+	"loadBalancer": {
+		"targetPort": 58081
+	},
+	"readinessProbe": {
+		"httpGet": {
+			"path": "/ready",
+			"port": 58081
+		}
+	}
+}
