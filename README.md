@@ -9,6 +9,11 @@ The POC uses the following github repositories:
   - https://github.com/michael-wall/rabbit-mq-demo.git - this repository which contains the DXP Cloud Workspace rabbitmq custom service definition, the rabbitmqlistener custom service definition (excluding the compiled jar file) and the rabbit-mq-publish client extension.
   - https://github.com/michael-wall/rabbit-mq-demo-listener.git which contains the source code for the rabbitmqlistener jar file. The compiled jar file to be manually added to the rabbitmqlistener custom service.
 
+## The Code ##
+- All of the custom code is contained in 2 class:
+  - RabbitMQPublishObjectActionRestController.java a Object Action CX endpoint that sends the message to the demo-queue.
+  - RabbitMQListener.java that listens for messages on the demo-queue and does something with them.
+
 ## Setup ##
 - Setup Liferay PaaS secrets for RabbitMQ credentials using appropriate values:
   - **rabbit-mq-default-user** used by RabbitMQ service, user is a full administrtor, mapped in the rabbitmq service LCP.json file.
