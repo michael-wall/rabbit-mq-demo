@@ -119,4 +119,5 @@ The POC uses the following github repositories:
   - port 15672 allows access to the Rabbit MQ Administration GUI over HTTPS.
 - For the POC RabbitMQ is unclustered:
   - A RabbitMQ cluster is recommended to avoid RabbitMQ being a single point of failure.
+  - A RabbitMQ cluster requires additional setup. Increasing the service scale will not result in a clustered RabbitMQ environment.
   - Configuring RabbitMQ clustering is not in scope for this POC.
