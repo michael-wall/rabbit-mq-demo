@@ -11,10 +11,10 @@ The POC uses the following github repositories:
 
 ## Setup ##
 - Setup Liferay PaaS secrets for RabbitMQ credentials using appropriate values:
-  - **rabbit-mq-default-user** used by RabbitMQ service, mapped in the rabbitmq service LCP.json file.
-  - **rabbit-mq-default-pass** used by RabbitMQ service, mapped in the rabbitmq service LCP.json file.
-  - **rabbit-mq-liferay-user** used by rabbitmqpublish CX and rabbitmqlistener Custom Service, mapped in their LCP.json files.
-  - **rabbit-mq-liferay-pass** used by rabbitmqpublish CX and rabbitmqlistener Custom Service, mapped in their LCP.json files.
+  - **rabbit-mq-default-user** used by RabbitMQ service, user is a full administrtor, mapped in the rabbitmq service LCP.json file.
+  - **rabbit-mq-default-pass** used by RabbitMQ service, user is a full administrtor, mapped in the rabbitmq service LCP.json file.
+  - **rabbit-mq-liferay-user** used by rabbitmqpublish CX and rabbitmqlistener custom service, user has queue read & write access only, mapped in their LCP.json files.
+  - **rabbit-mq-liferay-pass** used by rabbitmqpublish CX and rabbitmqlistener custom service, user has queue read & write access only, mapped in their LCP.json files.
   - Note: They don't need to be manually mapped to individual services, the service LCP.json files will take care of the mappings.
 
 - Deploy the RabbitMQ custom service and configure RabbitMQ
@@ -23,7 +23,7 @@ The POC uses the following github repositories:
   - Build and deploy the rabbitmq custom service in the Liferay PaaS environment.
   - The RabbitMQ administration GUI can be accessed from the browser using HTTPS and port 15672 using the credentials from rabbit-mq-default-user and rabbit-mq-default-pass secrets.
   - Both ports are configured to be external ports.
-    - Run these command to create the message queues:
+    - Run these command to create the required message queues:
       - rabbitmqadmin --username=\<rabbit-mq-default-user\> --password=\<rabbit-mq-default-pass\> declare queue name=demo-queue durable=true
       - rabbitmqadmin --username=\<rabbit-mq-default-user\> --password=\<rabbit-mq-default-pass\> declare queue name=processed-queue durable=true
       - rabbitmqadmin --username=\<rabbit-mq-default-user\> --password=\<rabbit-mq-default-pass\> declare queue name=error-queue durable=true
@@ -78,7 +78,7 @@ The POC uses the following github repositories:
 ## Notes ##
 - This is a ‘proof of concept’ that is being provided ‘as is’ without any support coverage or warranty.
 - It was tested in Liferay PaaS with the Client Extension build pipeline feature enabled, using Liferay DXP QR 2025.Q1.14 with JDK 21 at compile time and runtime.
-  - Ensure the DXP Cloud CI service is compiling with JDK 21.
+  - Ensure the DXP Cloud CI service is compiling with JDK 21 otherwise the Client Extension won't compile - see https://learn.liferay.com/w/dxp/cloud/platform-services/continuous-integration#setting-the-jdk-version
 - The rabbitmqlistener is deployed as a Liferay PaaS custom service for convenience.
   - In a realworld scenario the listener could be anything as long as it can access the queue etc.
   - The custom service shows that it can run completely outside of Liferay DXP, using OAuth 2 and the headless REST APIs to interact with Liferay.
@@ -87,4 +87,6 @@ The POC uses the following github repositories:
 - The RabbitMQ ports are intentionally public:
   - port 5672 allows access to the Rabbit MQ queues and requires credentials to perform any operations.
   - port 15672 allows access to the Rabbit MQ Administration GUI over HTTPS.
-- For the POC RabbitMQ is unclustered. A RabbitMQ cluster is recommended to avoid RabbitMQ being a single point of failure. Configuring RabbitMQ clustering is not in scope for this POC.
+- For the POC RabbitMQ is unclustered.
+  - A RabbitMQ cluster is recommended to avoid RabbitMQ being a single point of failure.
+  - Configuring RabbitMQ clustering is not in scope for this POC.
