@@ -107,6 +107,7 @@ The POC uses the following github repositories:
 - Check with your account manager if you wish to add custom services in Liferay PaaS:
   - https://learn.liferay.com/w/dxp/cloud/platform-services/using-a-custom-service
   - Ensure you have sufficient resources (memory, CPU and instances) check the 'Plan and Usage' screen in Liferay PaaS to see available resources.
+  - The memory and cpu assigned to the custom services / client extension are fairly arbitrary, the rabbitmq memory and cpu can be reduced e.g. to memory 2048 and cpu 1 if resources are scarce.
 - The rabbitmqlistener class has additional logging for troubleshooting and demonstration purposes only e.g. the OAuth Access Token is logged.
 - The rabbitmqlistener is deployed as a Liferay PaaS custom service for convenience.
   - In a realworld scenario the listener would be outside of Liferay PaaS and built with another framework or technologies.
