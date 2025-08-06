@@ -1,6 +1,6 @@
 ## Liferay PaaS and RabbitMQ with Objects, CX and custom services - a POC to integrate RabbitMQ in Liferay PaaS ##
 - Scope is to integrate Liferay DXP with https://www.rabbitmq.com/.
-- Rabbit MQ runs as a custom service in the Liferay PaaS environment.
+- RabbitMQ runs as a custom service in the Liferay PaaS environment.
 - An Object Action Client Extension publishes a message to a RabbitMQ queue.
 - A 'remote' Spring Boot custom service listens for messages in the queue, processes them and updates the original Object Record.
 
@@ -72,6 +72,11 @@ The POC uses the following github repositories:
 - The rabbitmqpublisher and rabbitmqlistener components have logging to show what is happening.
   - If the message is processed successfully in rabbitmqlistener then it is moved to the 'processed-queue'.
   - If the message is not processed successfully in rabbitmqlistener (e.g. due to an exception or missing JSON field or a non-200 response from the PATCH etc.) then it is moved to the 'error-queue'.
+  - Run this command in the rabbitmq service shell to see the queue message counts:
+    - rabbitmqctl list_queues
+  - Run this command to view one of the messages from the processed-queue (without 'consuming' it):
+    - rabbitmqadmin --username=***\[rabbit-mq-default-user\]*** --password=***\[rabbit-mq-default-pass\]*** get queue=processed-queue count=1
+      - Replace ***\[rabbit-mq-default-user\]*** and ***\[rabbit-mq-default-pass\]*** with the corresponding secret values.
 
 ## Notes ##
 - This is a ‘proof of concept’ that is being provided ‘as is’ without any support coverage or warranty.
