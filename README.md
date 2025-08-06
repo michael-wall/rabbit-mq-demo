@@ -61,7 +61,7 @@ The POC uses the following github repositories:
   - Trigger: On After Add
   - Action: object-action-executor[function#rabbit-mq-publish-object-action]
 
-## Triggering the Demo ##
+## Triggering the Integration ##
 - Check the DXP Cloud Console to confirm the environment is setup:
   - The rabbitmq and rabbitmqlistener custom services are running
   - The rabbitmqpublisher Client Extension custom service is running.
