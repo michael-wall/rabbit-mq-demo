@@ -94,11 +94,11 @@ The POC uses the following github repositories:
       - Replace ***\[rabbit-mq-default-user\]*** and ***\[rabbit-mq-default-pass\]*** with the corresponding secret values.
 
 ## Summary ##
-- While this is a fairly basic example of asynchronous message processing in Liferay DXP:
+- While this is a fairly basic example of asynchronous message processing:
   - It shows the possibilities of integrating with RabbitMQ, whether RabbitMQ is deployed in Liferay PaaS, in Liferay SaaS or remote from Liferay.
   - It shows how easy it is to send and receive RabbitMQ messages.
-  - It shows how the send and receive code can be integrated with the Liferay Client Extension architecture OR in non Liferay code that supports RabbitMQ / AMQP etc.
-  - And it was all done without creating a custom OSGi module.
+  - It shows how the send and receive code can be integrated with the Liferay Client Extension architecture OR in non-Liferay code that supports RabbitMQ / AMQP etc.
+  - And it was done without creating a single custom OSGi module.
 
 ## Notes ##
 - This is a ‘proof of concept’ that is being provided ‘as is’ without any support coverage or warranty.
