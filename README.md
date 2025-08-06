@@ -95,6 +95,6 @@ The POC uses the following github repositories:
 - The RabbitMQ ports are intentionally public:
   - port 5672 allows access to the Rabbit MQ queues and requires credentials to perform any operations.
   - port 15672 allows access to the Rabbit MQ Administration GUI over HTTPS.
-- For the POC RabbitMQ is unclustered.
+- For the POC RabbitMQ is unclustered:
   - A RabbitMQ cluster is recommended to avoid RabbitMQ being a single point of failure.
   - Configuring RabbitMQ clustering is not in scope for this POC.
