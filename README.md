@@ -12,7 +12,7 @@
 
 ## Repositories ##
 The POC uses the following github repositories:
-  - https://github.com/michael-wall/rabbit-mq-demo.git - this repository which contains the DXP Cloud Workspace rabbitmq custom service definition, the rabbitmqlistener custom service definition (excluding the compiled jar file) and the rabbit-mq-publish client extension.
+  - https://github.com/michael-wall/rabbit-mq-demo.git (i.e. this repository), which contains the DXP Cloud Workspace rabbitmq custom service definition, the rabbitmqlistener custom service definition (excluding the compiled jar file) and the rabbit-mq-publish client extension.
   - https://github.com/michael-wall/rabbit-mq-demo-listener.git which contains the source code for the rabbitmqlistener jar file. The compiled jar file to be manually added to the rabbitmqlistener custom service.
 
 ## The Code ##
@@ -103,9 +103,9 @@ The POC uses the following github repositories:
 ## Notes ##
 - This is a ‘proof of concept’ that is being provided ‘as is’ without any support coverage or warranty.
 - It was tested in Liferay PaaS with the Client Extension build pipeline feature enabled, using Liferay DXP QR 2025.Q1.14 with JDK 21 at compile time and runtime.
-  - Ensure the DXP Cloud CI service is compiling with JDK 21 otherwise the Client Extension won't compile - see https://learn.liferay.com/w/dxp/cloud/platform-services/continuous-integration#setting-the-jdk-version
+  - Ensure the DXP Cloud CI service is compiling with JDK 21 otherwise the Client Extension won't compile - see [Setting the JDK version](https://learn.liferay.com/w/dxp/cloud/platform-services/continuous-integration#setting-the-jdk-version).
 - Check with your account manager if you wish to add custom services in Liferay PaaS:
-  - https://learn.liferay.com/w/dxp/cloud/platform-services/using-a-custom-service
+  - See [Using a Custom Service](https://learn.liferay.com/w/dxp/cloud/platform-services/using-a-custom-service).
   - Ensure you have sufficient resources (memory, CPU and instances) check the 'Plan and Usage' screen in Liferay PaaS to see available resources.
   - The memory and cpu assigned to the custom services / client extension are fairly arbitrary, the rabbitmq memory and cpu can be reduced e.g. to memory 2048 and cpu 1 if resources are scarce.
 - The classes have additional logging for troubleshooting and demonstration purposes only e.g. the JWT and the OAuth Access Token are logged etc.
