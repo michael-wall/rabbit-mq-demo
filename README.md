@@ -19,20 +19,22 @@ The POC uses the following github repositories:
 
 - Deploy the RabbitMQ custom service and configure RabbitMQ
   - The rabbitmq/LCP.json in the repository is pre-configured. It is a StatefulSet service with a volume defined for /var/lib/rabbitmq to retain the RabbitMQ setup after a restart.
-  - rabbitmqctl and rabbitmqadmin commands can be run from the RabbitMQ service shell on port 5672.
   - Build and deploy the rabbitmq custom service in the Liferay PaaS environment.
   - The RabbitMQ administration GUI can be accessed from the browser using HTTPS and port 15672 using the credentials from rabbit-mq-default-user and rabbit-mq-default-pass secrets.
+  - The AMQP APIs use port 5672 to interact with the queues.
+  - rabbitmqctl and rabbitmqadmin commands can be run from the RabbitMQ service shell.
   - Both ports are configured to be external ports.
-    - Run these command to create the required message queues:
+    - Run these commands from the RabbitMQ service shell to create the required message queues:
       - rabbitmqadmin --username=***\[rabbit-mq-default-user\]*** --password=***\[rabbit-mq-default-pass\]*** declare queue name=demo-queue durable=true
       - rabbitmqadmin --username=***\[rabbit-mq-default-user\]*** --password=***\[rabbit-mq-default-pass\]*** declare queue name=processed-queue durable=true
       - rabbitmqadmin --username=***\[rabbit-mq-default-user\]*** --password=***\[rabbit-mq-default-pass\]*** declare queue name=error-queue durable=true
   - Durable ensures the queue (and it's contents) survive a RabbitMQ service restart.
   - Replace ***\[rabbit-mq-default-user\]*** and ***\[rabbit-mq-default-pass\]*** with the corresponding secret values.
-  - Run this command to verify that the queue was created: rabbitmqctl list_queues
-    - Run these command to create the user that the publisher and listener will use to connect to the queue:
-      - rabbitmqctl add_user ***\[rabbit-mq-liferay-user\]*** ***\[rabbit-mq-liferay-pass\]***
-      - rabbitmqctl set_permissions -p / ***\[rabbit-mq-liferay-user\]*** "" ".*" ".*"
+  - Run this command from the RabbitMQ service shell to verify that the queue was created:
+    - rabbitmqctl list_queues
+  - Run these command from the RabbitMQ service shell to create the user that the publisher and listener components will use to connect to the queues:
+    - rabbitmqctl add_user ***\[rabbit-mq-liferay-user\]*** ***\[rabbit-mq-liferay-pass\]***
+    - rabbitmqctl set_permissions -p / ***\[rabbit-mq-liferay-user\]*** "" ".*" ".*"
   - Replace ***\[rabbit-mq-liferay-user\]*** and ***\[rabbit-mq-liferay-pass\]*** with the corresponding secret values.
 
 - Create the Liferay Object
@@ -72,9 +74,9 @@ The POC uses the following github repositories:
 - The rabbitmqpublisher and rabbitmqlistener components have logging to show what is happening.
   - If the message is processed successfully in rabbitmqlistener then it is moved to the 'processed-queue'.
   - If the message is not processed successfully in rabbitmqlistener (e.g. due to an exception or missing JSON field or a non-200 response from the PATCH etc.) then it is moved to the 'error-queue'.
-  - Run this command in the rabbitmq service shell to see the queue message counts:
+  - Run this command from the RabbitMQ service shell to see the queue message counts:
     - rabbitmqctl list_queues
-  - Run this command to view one of the messages from the processed-queue (without 'consuming' it):
+  - Run this command from the RabbitMQ service shell to view the first message from the processed-queue (without 'consuming' it):
     - rabbitmqadmin --username=***\[rabbit-mq-default-user\]*** --password=***\[rabbit-mq-default-pass\]*** get queue=processed-queue count=1
       - Replace ***\[rabbit-mq-default-user\]*** and ***\[rabbit-mq-default-pass\]*** with the corresponding secret values.
 
