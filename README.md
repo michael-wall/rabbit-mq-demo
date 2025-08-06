@@ -5,7 +5,7 @@
 - A 'remote' Spring Boot custom service listens for messages in the queue, processes them and updates the original Object Record.
 
 ## Liferay Deployment Approaches ##
-- Although the POC focused in Liferay PaaS, the solution can also be deployed in Liferay SaaS or Liferay Self Hosted:
+- Although the POC focused in Liferay PaaS, the solution doesn't contain any custom OSGi modules, meaning it can also be deployed in Liferay SaaS or Liferay Self Hosted:
   - In Liferay PaaS, the rabbitmq, rabbitmqlistener custom services and the rabbitmqpublish client extension are all deployed as custom services to the environment e.g. prd.
   - In Liferay SaaS, the rabbitmq, rabbitmqlistener custom services and the rabbitmqpublish client extension are all deployed as custom services to the ext environment e.g. extprd.
   - In Liferay Self Hosted RabbitMQ can be run as a native Docker container or standalone, rabbitmqlistener can be run as a Docker container or standalone, and rabbitmqpublish can be run as a client extension deployed within the Liferay DXP service. Additional setup is required to run in Liferay Self Hosted.
