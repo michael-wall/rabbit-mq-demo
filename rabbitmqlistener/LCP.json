@@ -12,6 +12,7 @@
 		"RABBIT_MQ_DEMO_QUEUE_NAME": "demo-queue",
 		"RABBIT_MQ_PROCESSED_QUEUE_NAME": "processed-queue",
 		"RABBIT_MQ_ERROR_QUEUE_NAME": "error-queue",
+		"LIFERAY_BASE_URL": "http://liferay:8080",
 		"LISTENER_OAUTH_CLIENT_ID": "@listener-oauth-client-id",
 		"LISTENER_OAUTH_CLIENT_SECRET": "@listener-oauth-client-secret"
 	},
