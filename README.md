@@ -24,7 +24,7 @@ The POC uses the following github repositories:
 ## The Code ##
 - All of the custom code is contained in 2 class:
   - RabbitMQPublishObjectActionRestController.java is an Object Action Client Extension endpoint that sends the message to the demo-queue.
-  - RabbitMQListener.java is a RabbitListener that listens for messages on the demo-queue and does something with them.
+  - RabbitMQListener.java contains a RabbitListener that listens for messages on the demo-queue and does something with them.
 
 ## RabbitMQ ##
   - The rabbitmq/LCP.json in the repository is pre-configured:
