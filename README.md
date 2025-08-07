@@ -79,7 +79,7 @@ The POC uses the following github repositories:
   - Ensure the publisher and listener are using the same queue...
   - Build and deploy the rabbitmqlistener custom service in the Liferay PaaS environment.
 
-- Add the Object Action to the 'RabbitTest' Object:
+- Add the Object Action to the 'RabbitTest' Object
   - Trigger: On After Add
   - Action: object-action-executor[function#rabbit-mq-publish-object-action]
 
