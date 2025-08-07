@@ -117,11 +117,11 @@ The POC uses the following github repositories:
   - Ensure you have sufficient resources (memory, CPU and instances) check the 'Plan and Usage' screen in Liferay PaaS to see available resources.
   - The memory and cpu assigned to the custom services / client extension are fairly arbitrary, the rabbitmq memory and cpu can be reduced e.g. to memory 2048 and cpu 1 if resources are scarce.
 - The classes have additional INFO logging for troubleshooting and demonstration purposes only enabled e.g. the JWT and the OAuth Access Token are logged. These should not normally be logged...
-- The rabbitmqlistener is deployed as a Liferay PaaS custom service for convenience.
+- The rabbitmqlistener is deployed as a Liferay PaaS custom service for convenience:
   - In a realworld scenario the listener would be outside of Liferay PaaS and built with another framework or technologies.
-  - The use of a custom service shows that the listener can run completely outside of Liferay DXP, using OAuth 2 and the headless REST APIs to interact with Liferay DXP.
+  - The use of a 'standalone' custom service shows that the listener can run completely outside of Liferay DXP, using OAuth 2 and the headless REST APIs to interact with Liferay DXP.
 - RabbitMQ setup notes:
-  - The RabbitMQ queues can be created programatically e.g. the first time they are accessed but the manual setup are included to give a better understanding of the implementation.
+  - The RabbitMQ queues can be created programatically e.g. the first time they are accessed but the manual setup are included to give a better visibility of the implementation.
   - The RabbitMQ default credentials can be used by the publish and listener but sharing a dedicated account with limited permissions for the queue actions is more secure.
   - In a full system integration implementation where the publish and listener components are in seperate systems, they should each have their own credentials.
 - The RabbitMQ ports are intentionally public:
