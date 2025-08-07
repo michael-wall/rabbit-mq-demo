@@ -1,8 +1,8 @@
 ## Liferay PaaS and RabbitMQ with Objects, CX and custom services - a POC to integrate RabbitMQ in Liferay PaaS ##
 - This repo contains a full end to end proof of content (POC) to integrate Liferay DXP with [RabbitMQ](https://www.rabbitmq.com/) for asynchronous message processing using custom services and Client Extensions only, without any custom OSGi modules.
 - RabbitMQ runs as a custom service in the Liferay PaaS environment.
-- An Object Action Client Extension publishes a message to a RabbitMQ queue.
-- A 'remote' Spring Boot custom service listens for messages in the queue, processes them and updates the original Object Record.
+- An Object Action Client Extension publishes a message to a RabbitMQ queue using Spring AMQP.
+- A 'remote' Spring Boot custom service listens for messages in the queue using Spring AMQP, processes the message and updates the original Object Record.
 
 ## Liferay Deployment Approaches ##
 - Although the POC focused in Liferay PaaS, the solution doesn't contain any custom OSGi modules, meaning it can also be deployed in Liferay SaaS or Liferay Self Hosted:
@@ -23,8 +23,8 @@ The POC uses the following github repositories:
 
 ## The Code ##
 - All of the custom code is contained in 2 class:
-  - RabbitMQPublishObjectActionRestController.java is an Object Action Client Extension endpoint that sends the message to the demo-queue.
-  - RabbitMQListener.java contains a RabbitListener that listens for messages on the demo-queue and does something with them.
+  - RabbitMQPublishObjectActionRestController.java is an Object Action Client Extension endpoint that sends the message to the demo-queue using the Spring AMQP RabbitTemplate helper class.
+  - RabbitMQListener.java is a regular java class that also uses Spring AMQP. It contains a RabbitListener that listens for messages on the demo-queue, reads the message, extracts the 'id' and 'input' values and uses these to update the 'output' value using the headless REST API PATCH endpoint and the Headless Server OAuth 2 profile. It then uses the RabbitTemplate helper class to send the message to the processed-queue or the error-queue if applicable.
 
 ## RabbitMQ ##
   - The rabbitmq/LCP.json in the repository is pre-configured:
