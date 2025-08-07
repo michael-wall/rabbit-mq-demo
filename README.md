@@ -35,9 +35,9 @@ The POC uses the following github repositories:
 
 ## Setup ##
 - Setup Liferay PaaS secrets for RabbitMQ credentials
-  - **rabbit-mq-default-user** used by RabbitMQ service, user is a full administrtor, mapped in the rabbitmq service LCP.json file.
+  - **rabbit-mq-default-user** used by RabbitMQ service, user is a full RabbitMQ administator, mapped in the rabbitmq service LCP.json file.
   - **rabbit-mq-default-pass** password for **rabbit-mq-default-user**, mapped in the rabbitmq service LCP.json file.
-  - **rabbit-mq-liferay-user** used by rabbitmqpublish CX and rabbitmqlistener custom service, user has queue read & write access only, mapped in their LCP.json files.
+  - **rabbit-mq-liferay-user** used by rabbitmqpublish CX and rabbitmqlistener custom service, this RabbitMQ user has queue read & write access only, mapped in their LCP.json files.
   - **rabbit-mq-liferay-pass** password **rabbit-mq-liferay-user**, mapped in their LCP.json files.
   - The values you enter will be used by RabbitMQ and the custom service and client extension.
   - The secrets don't need to be manually mapped to individual services, the service LCP.json files use the @rabbit-mq-xxxx syntax which will take care of the mappings.
