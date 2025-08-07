@@ -82,11 +82,13 @@ The POC uses the following github repositories:
 - Add the Object Action to the 'RabbitTest' Object
   - Trigger: On After Add
   - Action: object-action-executor[function#rabbit-mq-publish-object-action]
+ 
+- Verify Custom Service Status
+  - Check the DXP Cloud Console to confirm the environment is setup:
+    - The rabbitmq and rabbitmqlistener custom services are running.
+    - The rabbitmqpublisher Client Extension custom service is running.
 
 ## Triggering the Integration ##
-- Check the DXP Cloud Console to confirm the environment is setup:
-  - The rabbitmq and rabbitmqlistener custom services are running
-  - The rabbitmqpublisher Client Extension custom service is running.
 - Create a Liferay Objects record using the 'RabbitTest' Object Definition, populating the 'input' field, leaving the 'output' field empty, and Save.
 - This will trigger the Object Action to send a message to the 'demo-queue' queue using the rabbitmypublisher Client Extension Object Action.
 - The Listener class in rabbitmqlistener will listen for the message and when it receives it, it will extract the 'id' and 'input' values and use these to update the 'output' value using the headless REST API PATCH endpoint and the Headless Server OAuth 2 profile.
