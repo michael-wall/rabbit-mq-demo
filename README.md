@@ -27,12 +27,13 @@ The POC uses the following github repositories:
   - RabbitMQListener.java that listens for messages on the demo-queue and does something with them.
 
 ## Setup ##
-- Setup Liferay PaaS secrets for RabbitMQ credentials using appropriate values:
+- Setup Liferay PaaS secrets for RabbitMQ credentials
   - **rabbit-mq-default-user** used by RabbitMQ service, user is a full administrtor, mapped in the rabbitmq service LCP.json file.
   - **rabbit-mq-default-pass** password for **rabbit-mq-default-user**, mapped in the rabbitmq service LCP.json file.
   - **rabbit-mq-liferay-user** used by rabbitmqpublish CX and rabbitmqlistener custom service, user has queue read & write access only, mapped in their LCP.json files.
   - **rabbit-mq-liferay-pass** password **rabbit-mq-liferay-user**, mapped in their LCP.json files.
-  - Note: These secrets don't need to be manually mapped to individual services, the service LCP.json files use the @rabbit-mq-xxxx syntax which will take care of the mappings.
+  - The values you enter will be used by RabbitMQ and the custom service and client extension.
+  - The secrets don't need to be manually mapped to individual services, the service LCP.json files use the @rabbit-mq-xxxx syntax which will take care of the mappings.
 
 - Deploy the RabbitMQ custom service and configure RabbitMQ
   - The rabbitmq/LCP.json in the repository is pre-configured. It is a StatefulSet service with a volume defined for /var/lib/rabbitmq to retain the RabbitMQ setup after a restart.
@@ -71,7 +72,7 @@ The POC uses the following github repositories:
   - Add the following secrets using the values from the OAuth 2.0 Administration > Rabbit MQ Listener OAuth Application Headless Server
     - **listener-oauth-client-id**
     - **listener-oauth-client-secret**
-  - Note: These secrets don't need to be manually mapped to individual services, the service LCP.json files use the @listener-oauth-client-xxxx syntax which will take care of the mappings.
+  - The secrets don't need to be manually mapped to individual services, the service LCP.json files use the @listener-oauth-client-xxxx syntax which will take care of the mappings.
   - Build the com.mw.rabbit.mq.listener.jar-1.0.0.jar jar file (from separate repository https://github.com/michael-wall/rabbit-mq-demo-listener)
   - Copy the jar file into the root of the rabbitmqlistener custom service folder.
   - The rabbitmqlistener/LCP.json in the repository is pre-configured using queue 'demo-queue', 'processed-queue' and 'error-queue'.
