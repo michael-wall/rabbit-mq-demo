@@ -25,6 +25,13 @@ The POC uses the following github repositories:
 - All of the custom code is contained in 2 class:
   - RabbitMQPublishObjectActionRestController.java a Object Action CX endpoint that sends the message to the demo-queue.
   - RabbitMQListener.java that listens for messages on the demo-queue and does something with them.
+ 
+## RabbitMQ ##
+  - The rabbitmq/LCP.json in the repository is pre-configured:
+    - It is a StatefulSet service with a volume defined for /var/lib/rabbitmq to retain the RabbitMQ setup after a restart.
+    - Port 5672 is configured to be internal whereas port 15672 is configured to be external.
+      - The AMQP APIs use port 5672 to interact with the queues.
+      - The RabbitMQ administration GUI can be accessed from the browser using HTTPS and port 15672 using the credentials from rabbit-mq-default-user and rabbit-mq-default-pass secrets.
 
 ## Setup ##
 - Setup Liferay PaaS secrets for RabbitMQ credentials
@@ -36,10 +43,7 @@ The POC uses the following github repositories:
   - The secrets don't need to be manually mapped to individual services, the service LCP.json files use the @rabbit-mq-xxxx syntax which will take care of the mappings.
 
 - Deploy the RabbitMQ custom service and configure RabbitMQ
-  - The rabbitmq/LCP.json in the repository is pre-configured. It is a StatefulSet service with a volume defined for /var/lib/rabbitmq to retain the RabbitMQ setup after a restart.
-    - Port 5672 is configured to be internal whereas port 15672 is configured to be external.
-    - The RabbitMQ administration GUI can be accessed from the browser using HTTPS and port 15672 using the credentials from rabbit-mq-default-user and rabbit-mq-default-pass secrets.
-    - The AMQP APIs use port 5672 to interact with the queues.
+  - The rabbitmq/LCP.json in the repository is pre-configured, the memory and cpu can be reduced e.g. to 2048 and 1 respectively for demo purposes if Liferay PaaS resources are scarce.
   - Build and deploy the rabbitmq custom service in the Liferay PaaS environment.
   - rabbitmqctl and rabbitmqadmin commands can be run from the RabbitMQ service shell.
     - Run these commands from the RabbitMQ service shell to create the required message queues:
