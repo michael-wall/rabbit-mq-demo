@@ -1,5 +1,5 @@
 ## Liferay PaaS and RabbitMQ with Objects, CX and custom services - a POC to integrate RabbitMQ in Liferay PaaS ##
-- Scope is to integrate Liferay DXP with [RabbitMQ](https://www.rabbitmq.com/).
+- Scope is to integrate Liferay DXP with [RabbitMQ](https://www.rabbitmq.com/) for asynchronous message processing.
 - RabbitMQ runs as a custom service in the Liferay PaaS environment.
 - An Object Action Client Extension publishes a message to a RabbitMQ queue.
 - A 'remote' Spring Boot custom service listens for messages in the queue, processes them and updates the original Object Record.
@@ -108,6 +108,9 @@ The POC uses the following github repositories:
   - It shows the possibilities of integrating with RabbitMQ, whether RabbitMQ is deployed in Liferay PaaS, in Liferay SaaS or remote from Liferay.
   - It shows how easy it is to send and receive RabbitMQ messages.
   - It shows how the send and receive code can be integrated with the Liferay Client Extension architecture OR in non-Liferay code that supports RabbitMQ / AMQP etc.
+  - The rabbitmqlistener is deployed as a Liferay PaaS custom service for convenience:
+    - In a real world scenario the listener would be outside of Liferay PaaS and probably built with another framework or technologies.
+    - The use of a 'standalone' custom service shows that the listener can run completely outside of Liferay DXP, using OAuth 2 and the headless REST APIs to interact with Liferay DXP.
   - And it was done without creating a single custom OSGi module.
 
 ## Notes ##
@@ -118,9 +121,6 @@ The POC uses the following github repositories:
   - See [Using a Custom Service](https://learn.liferay.com/w/dxp/cloud/platform-services/using-a-custom-service).
   - Ensure you have sufficient resources (memory, CPU and instances) check the 'Plan and Usage' screen in Liferay PaaS to see available resources.
   - The memory and cpu assigned to the custom services / client extension are fairly arbitrary, the rabbitmq memory and cpu can be reduced e.g. to memory 2048 and cpu 1 if resources are scarce.
-- The rabbitmqlistener is deployed as a Liferay PaaS custom service for convenience:
-  - In a realworld scenario the listener would be outside of Liferay PaaS and built with another framework or technologies.
-  - The use of a 'standalone' custom service shows that the listener can run completely outside of Liferay DXP, using OAuth 2 and the headless REST APIs to interact with Liferay DXP.
 - RabbitMQ setup notes:
   - The RabbitMQ queues can be created programatically e.g. the first time they are accessed but the manual setup is included to give better visibility of the implementation.
   - The RabbitMQ default credentials can be used by the publish and listener but using a dedicated account with limited permissions for the queue actions is more secure.
