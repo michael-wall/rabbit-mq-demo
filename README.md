@@ -6,14 +6,14 @@
 
 ## Liferay Deployment Approaches ##
 - Although the POC focused in Liferay PaaS, the solution doesn't contain any custom OSGi modules, meaning it can also be deployed in Liferay SaaS or Liferay Self Hosted:
-  - In Liferay PaaS, the rabbitmq, rabbitmqlistener custom services and the rabbitmqpublish client extension are all deployed as custom services to the environment e.g. prd.
-  - In Liferay SaaS, the rabbitmq, rabbitmqlistener custom services and the rabbitmqpublish client extension are all deployed as custom services to the ext environment e.g. extprd.
+  - In Liferay PaaS, the rabbitmq and rabbitmqlistener custom services and the rabbitmqpublish client extension are all deployed as custom services to the environment e.g. prd.
+  - In Liferay SaaS, the rabbitmq and rabbitmqlistener custom services and the rabbitmqpublish client extension are all deployed as custom services to the ext environment e.g. extprd.
   - In Liferay Self Hosted RabbitMQ can be run as a native Docker container or standalone, rabbitmqlistener can be run as a Docker container or standalone, and rabbitmqpublish can be run as a client extension deployed within the Liferay DXP service. Additional setup is required to run in Liferay Self Hosted.
  
 ## Hostnames and ports in Liferay PaaS ##
 - Each Liferay PaaS environment has it's own private network. As a result:
   - The LCP.json service id values can be used by one service to reference another service e.g. the webserver uses liferay for the Liferay service etc.
-  - The internal portals can be used by other services e.g. liferay:8080
+  - The internal ports can be used by other services e.g. liferay:8080
 - In this POC:
   - rabbitmqlistener\LCP.json and rabbit-mq-publish\LCP.json use hostname rabbitmq to refrence the RabbitMQ custom service as that's the service id specified in rabbitmq\LCP.json
   - RabbitMQListener.java accesses the Liferay DXP rest APIs using http://liferay:8080
@@ -116,12 +116,14 @@ The POC uses the following github repositories:
   - See [Using a Custom Service](https://learn.liferay.com/w/dxp/cloud/platform-services/using-a-custom-service).
   - Ensure you have sufficient resources (memory, CPU and instances) check the 'Plan and Usage' screen in Liferay PaaS to see available resources.
   - The memory and cpu assigned to the custom services / client extension are fairly arbitrary, the rabbitmq memory and cpu can be reduced e.g. to memory 2048 and cpu 1 if resources are scarce.
-- The classes have additional logging for troubleshooting and demonstration purposes only e.g. the JWT and the OAuth Access Token are logged etc.
+- The classes have additional INFO logging for troubleshooting and demonstration purposes only enabled e.g. the JWT and the OAuth Access Token are logged. These should not normally be logged...
 - The rabbitmqlistener is deployed as a Liferay PaaS custom service for convenience.
   - In a realworld scenario the listener would be outside of Liferay PaaS and built with another framework or technologies.
   - The use of a custom service shows that the listener can run completely outside of Liferay DXP, using OAuth 2 and the headless REST APIs to interact with Liferay DXP.
-- The RabbitMQ queues can be created programatically e.g. the first time they are accessed, and a single set of credentials can be used but sharing a dedicated account with limited permissions for the queue actions is more secure plus the extra setup steps help give a better understanding of the implementation.
-  - In a full implementation the publish and subscribe components would likely each use their own credentials.
+- RabbitMQ setup notes:
+  - The RabbitMQ queues can be created programatically e.g. the first time they are accessed but the manual setup are included to give a better understanding of the implementation.
+  - The RabbitMQ default credentials can be used by the publish and listener but sharing a dedicated account with limited permissions for the queue actions is more secure.
+  - In a full system integration implementation where the publish and listener components are in seperate systems, they should each have their own credentials.
 - The RabbitMQ ports are intentionally public:
   - port 5672 allows access to the Rabbit MQ queues and requires credentials to perform any operations.
   - port 15672 allows access to the Rabbit MQ Administration GUI over HTTPS.
