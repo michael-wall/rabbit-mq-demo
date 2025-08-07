@@ -96,9 +96,9 @@ The POC uses the following github repositories:
 
 ## Triggering the Integration ##
 - Create a Liferay Objects record using the 'RabbitTest' Object Definition, populating the 'input' field, leaving the 'output' field empty, and Save.
-- This will trigger the Object Action to send a message to the 'demo-queue' queue using the rabbitmypublisher Client Extension Object Action.
+- This will trigger the Object Action to send a message to the RabbitMQ 'demo-queue' using the rabbitmypublisher Client Extension Object Action.
 - For simplicity, the message payload is the Liferay Object record JSON payload that is passed to the Object Action Client Extension.
-- The Listener class in rabbitmqlistener will listen for the message and when it receives it, it will extract the 'id' and 'input' values and use these to update the 'output' value using the headless REST API PATCH endpoint and the Headless Server OAuth 2 profile.
+- The Listener class in rabbitmqlistener will listen for the messages in the RabbitMQ 'demo-queue' and when it receives one, it will extract the 'id' and 'input' values and use these to update the 'output' value using the headless REST API PATCH endpoint and the Headless Server OAuth 2 profile.
 - Wait 15 seconds (15 second sleep delay added for demo purposes) and refresh the Objects grid screen. The 'output' field of the Object Record should now be populated by the rabbitmqlistener custom service logic.
 - The rabbitmqpublisher and rabbitmqlistener components have logging to show what is happening.
   - The classes have additional INFO logging for troubleshooting and demonstration purposes only enabled e.g. the JWT and the OAuth Access Token are logged. These should not normally be logged...
