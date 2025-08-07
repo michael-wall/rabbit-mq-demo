@@ -29,9 +29,9 @@ The POC uses the following github repositories:
 ## RabbitMQ ##
   - The rabbitmq/LCP.json in the repository is pre-configured:
     - It is a StatefulSet service with a volume defined for /var/lib/rabbitmq to retain the RabbitMQ setup after a restart.
-    - Port 5672 is configured to be internal whereas port 15672 is configured to be external.
+    - Port 5672 is configured to be internal whereas port 15672 is configured to be external:
       - The AMQP APIs use port 5672 to interact with the queues.
-      - The RabbitMQ administration GUI can be accessed from the browser using HTTPS and port 15672 using the credentials from rabbit-mq-default-user and rabbit-mq-default-pass secrets.
+      - The RabbitMQ administration GUI can be accessed from a browser using HTTPS with the credentials from rabbit-mq-default-user and rabbit-mq-default-pass secrets using the hostname from rabbitmq service > ingress endpoints.
 
 ## Setup ##
 - Setup Liferay PaaS secrets for RabbitMQ credentials
