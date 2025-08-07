@@ -9,6 +9,14 @@
   - In Liferay PaaS, the rabbitmq, rabbitmqlistener custom services and the rabbitmqpublish client extension are all deployed as custom services to the environment e.g. prd.
   - In Liferay SaaS, the rabbitmq, rabbitmqlistener custom services and the rabbitmqpublish client extension are all deployed as custom services to the ext environment e.g. extprd.
   - In Liferay Self Hosted RabbitMQ can be run as a native Docker container or standalone, rabbitmqlistener can be run as a Docker container or standalone, and rabbitmqpublish can be run as a client extension deployed within the Liferay DXP service. Additional setup is required to run in Liferay Self Hosted.
+ 
+## Hostnames and ports in Liferay PaaS ##
+- Each Liferay PaaS environment has it's own private network. As a result:
+  - The LCP.json service id values can be used by one service to reference another service e.g. the webserver uses liferay for the Liferay service etc.
+  - The internal portals can be used by other services e.g. liferay:8080
+- In this POC:
+  - rabbitmqlistener\LCP.json and rabbit-mq-publish\LCP.json use hostname rabbitmq to refrence the RabbitMQ custom service as that's the service id specified in rabbitmq\LCP.json
+  - RabbitMQListener.java accesses the Liferay DXP rest APIs using http://liferay:8080
 
 ## Repositories ##
 The POC uses the following github repositories:
