@@ -72,11 +72,13 @@ The POC uses the following github repositories:
   - Ensure the publisher and listener are using the same queue...
   - Build and deploy the rabbitmqpublish client extension in the Liferay PaaS environment.
 
-- Build and deploy the rabbitmqlistener
+- Setup Liferay PaaS secrets for rabbitmqlistener
   - Add the following secrets using the values from the OAuth 2.0 Administration > Rabbit MQ Listener OAuth Application Headless Server
     - **listener-oauth-client-id**
     - **listener-oauth-client-secret**
   - The secrets don't need to be manually mapped to individual services, the service LCP.json files use the @listener-oauth-client-xxxx syntax which will take care of the mappings.
+
+- Build and deploy rabbitmqlistener
   - Build the com.mw.rabbit.mq.listener.jar-1.0.0.jar jar file (from separate repository https://github.com/michael-wall/rabbit-mq-demo-listener)
   - Copy the jar file into the root of the rabbitmqlistener custom service folder.
   - The rabbitmqlistener/LCP.json in the repository is pre-configured using queue 'demo-queue', 'processed-queue' and 'error-queue'.
@@ -87,7 +89,7 @@ The POC uses the following github repositories:
   - Trigger: On After Add
   - Action: object-action-executor[function#rabbit-mq-publish-object-action]
  
-- Verify Custom Service Status
+- Verify custom services status
   - Check the DXP Cloud Console to confirm the environment is setup:
     - The rabbitmq and rabbitmqlistener custom services are running.
     - The rabbitmqpublisher Client Extension custom service is running.
