@@ -23,9 +23,8 @@ The POC uses the following github repositories:
 
 ## The Code ##
 - All of the custom code is contained in 2 class:
-  - RabbitMQPublishObjectActionRestController.java is an Object Action Client Extension endpoint that sends the message to the demo-queue using the Spring AMQP RabbitTemplate helper class.
-  - RabbitMQListener.java is a regular java class that also uses Spring AMQP. It contains a RabbitListener that listens for messages on the demo-queue, reads the message, extracts the 'id' and 'input' values and uses these to update the 'output' value using the headless REST API PATCH endpoint and the Headless Server OAuth 2 profile. It then uses the RabbitTemplate helper class to send the message to the processed-queue or the error-queue if applicable.
-
+  - RabbitMQPublishObjectActionRestController.java is an Object Action Client Extension endpoint that sends the message to the 'demo-queue' using the Spring AMQP RabbitTemplate helper class.
+  - RabbitMQListener.java is a regular java class that also uses Spring AMQP. It contains a RabbitListener that listens for messages on the 'demo-queue', reads the message, extracts the 'id' and 'input' values and uses these to populate the 'output' value of the original Liferay Objects record using the headless REST API PATCH endpoint and the Headless Server OAuth 2 profile. It then uses the RabbitTemplate helper class to send the message to the 'processed-queue' or the 'error-queue' if applicable.
 ## RabbitMQ ##
   - The rabbitmq/LCP.json in the repository is pre-configured:
     - It is a StatefulSet service with a volume defined for /var/lib/rabbitmq to retain the RabbitMQ setup after a restart.
