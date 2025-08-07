@@ -106,6 +106,7 @@ The POC uses the following github repositories:
   - Run this command from the RabbitMQ service shell to view the first message from the processed-queue (without 'consuming' it):
     - rabbitmqadmin --username=***\[rabbit-mq-default-user\]*** --password=***\[rabbit-mq-default-pass\]*** get queue=processed-queue count=1
       - Replace ***\[rabbit-mq-default-user\]*** and ***\[rabbit-mq-default-pass\]*** with the corresponding secret values.
+- You can also check the queues in RabbitMQ (login with the rabbit-mq-default-user and rabbit-mq-default-pass secret values) with the hostname from rabbitmq service > ingress endpoints.
 
 ## Summary ##
 - While this is a fairly basic example of asynchronous message processing:
