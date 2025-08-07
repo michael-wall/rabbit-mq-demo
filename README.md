@@ -1,5 +1,5 @@
 ## Liferay PaaS and RabbitMQ with Objects, CX and custom services - a POC to integrate RabbitMQ in Liferay PaaS ##
-- Scope is to integrate Liferay DXP with [RabbitMQ](https://www.rabbitmq.com/) for asynchronous message processing.
+- This repo contains a full end to end proof of content (POC) to integrate Liferay DXP with [RabbitMQ](https://www.rabbitmq.com/) for asynchronous message processing using custom services and Client Extensions only, without any custom OSGi modules.
 - RabbitMQ runs as a custom service in the Liferay PaaS environment.
 - An Object Action Client Extension publishes a message to a RabbitMQ queue.
 - A 'remote' Spring Boot custom service listens for messages in the queue, processes them and updates the original Object Record.
