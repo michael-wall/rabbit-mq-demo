@@ -78,7 +78,7 @@
   - In the rabbitmw/LCP.json, port 5672 is configured to be internal whereas port 15672 is configured to be external:
     - **Make port 5672 public if the publisher or listener isn't on the Liferay PaaS environment private network.**
 - Service dependencies
-  - I haven't defined LCP.json dependencies between custom or out of the box services.
+  - The POC doesn't define LCP.json dependencies between the custom or out of the box services.
   - If external systems are dependent on the RabbitMQ custom service, consider not including it in the regular build with the other services, and using the LCP CLI tool to manage build and deployment of the RabbitMQ service independent of a 'regular build'.
   - The RabbitMQ service uses the default 'RollingUpdate' deployment strategy which should avoid downtime during build deployments. See [Understanding Deployment Strategies](https://learn.liferay.com/w/dxp/cloud/updating-services-in-liferay-paas/understanding-deployment-strategies) for more details.
 - For the POC RabbitMQ is unclustered:
