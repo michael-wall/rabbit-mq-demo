@@ -2,12 +2,6 @@
 - A full end to end proof of content to integrate RabbitMQ in Liferay PaaS (and Liferay SaaS)
 - See for [Liferay PaaS and RabbitMQ with Objects, CX and custom services](https://learn.liferay.com/w/dxp/cloud/platform-services/using-a-custom-service) Blog Post more details
 
-## Hostnames in Liferay PaaS ##
-- Each Liferay PaaS environment has it's own private network, meaning the LCP.json service id value can be used by a service to reference another service in the same environment.
-- In this POC:
-  - rabbitmqlistener\LCP.json and rabbit-mq-publish\LCP.json SPRING_RABBITMQ_HOST environment variable is set to rabbitmq as that's the service id specified in rabbitmq\LCP.json
-  - rabbitmqlistener\LCP.json LIFERAY_BASE_URL environment variable is set to http://liferay:8080 as this is accessible from within the private network.
-
 ## Setup ##
 - Setup Liferay PaaS secrets for RabbitMQ credentials
   - **rabbit-mq-default-user** used by RabbitMQ service, user is a full RabbitMQ administator, mapped in the rabbitmq service LCP.json file.
