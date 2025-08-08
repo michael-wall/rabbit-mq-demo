@@ -2,7 +2,7 @@
 - A full end to end proof of content to integrate RabbitMQ in Liferay PaaS (and Liferay SaaS)
 - See for [Liferay PaaS and RabbitMQ with Objects, CX and custom services](https://learn.liferay.com/w/dxp/cloud/platform-services/using-a-custom-service) Blog Post for more details
 
-## Setup ##
+## Detailed Setup Steps ##
 - Setup Liferay PaaS secrets for RabbitMQ credentials
   - **rabbit-mq-default-user** used by RabbitMQ service, user is a full RabbitMQ administator, mapped in the rabbitmq service LCP.json file.
   - **rabbit-mq-default-pass** password for **rabbit-mq-default-user**, mapped in the rabbitmq service LCP.json file.
