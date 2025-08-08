@@ -1,36 +1,12 @@
-## Liferay PaaS and RabbitMQ with Objects, CX and custom services - a POC to integrate RabbitMQ in Liferay PaaS ##
-- This repo contains a full end to end proof of content (POC) to integrate Liferay DXP with [RabbitMQ](https://www.rabbitmq.com/) for asynchronous message processing using custom services and Client Extensions only, without any custom OSGi modules.
-- RabbitMQ runs as a custom service in the Liferay PaaS environment.
-- An Object Action Client Extension publishes a message to a RabbitMQ queue using Spring AMQP.
-- A 'remote' Spring Boot custom service listens for messages in the queue using Spring AMQP, processes the message and updates the original Object Record.
+## Liferay PaaS and RabbitMQ with Objects, CX and custom services ##
+- A full end to end proof of content to integrate RabbitMQ in Liferay PaaS (and Liferay SaaS)
+- See for [Liferay PaaS and RabbitMQ with Objects, CX and custom services](https://learn.liferay.com/w/dxp/cloud/platform-services/using-a-custom-service) Blog Post more details
 
-## Liferay Deployment Approaches ##
-- Although the POC focused in Liferay PaaS, the solution doesn't contain any custom OSGi modules, meaning it can also be deployed in Liferay SaaS or Liferay Self Hosted:
-  - In Liferay PaaS, the rabbitmq and rabbitmqlistener custom services and the rabbitmqpublish client extension are all deployed as custom services to the environment e.g. prd.
-  - In Liferay SaaS, the rabbitmq and rabbitmqlistener custom services and the rabbitmqpublish client extension are all deployed as custom services to the ext environment e.g. extprd.
-  - In Liferay Self Hosted RabbitMQ can be run as a native Docker container or standalone, rabbitmqlistener can be run as a Docker container or standalone, and rabbitmqpublish can be run as a client extension deployed within the Liferay DXP service. Additional setup is required to run in Liferay Self Hosted.
- 
 ## Hostnames in Liferay PaaS ##
 - Each Liferay PaaS environment has it's own private network, meaning the LCP.json service id value can be used by a service to reference another service in the same environment.
 - In this POC:
   - rabbitmqlistener\LCP.json and rabbit-mq-publish\LCP.json SPRING_RABBITMQ_HOST environment variable is set to rabbitmq as that's the service id specified in rabbitmq\LCP.json
   - rabbitmqlistener\LCP.json LIFERAY_BASE_URL environment variable is set to http://liferay:8080 as this is accessible from within the private network.
-
-## Repositories ##
-The POC uses the following github repositories:
-  - https://github.com/michael-wall/rabbit-mq-demo.git (i.e. this repository), which contains the DXP Cloud Workspace rabbitmq custom service definition, the rabbitmqlistener custom service definition (excluding the compiled jar file) and the rabbit-mq-publish client extension.
-  - https://github.com/michael-wall/rabbit-mq-demo-listener.git which contains the source code for the rabbitmqlistener jar file. The compiled jar file to be manually added to the rabbitmqlistener custom service.
-
-## The Code ##
-- All of the custom code is contained in 2 class:
-  - RabbitMQPublishObjectActionRestController.java is an Object Action Client Extension endpoint that sends the message to the 'demo-queue' using the Spring AMQP RabbitTemplate helper class.
-  - RabbitMQListener.java is a regular java class that also uses Spring AMQP. It contains a RabbitListener that listens for messages on the 'demo-queue', reads the message, extracts the 'id' and 'input' values and uses these to populate the 'output' value of the original Liferay Objects record using the headless REST API PATCH endpoint and the Headless Server OAuth 2 profile. It then uses the RabbitTemplate helper class to send the message to the 'processed-queue' or the 'error-queue' if applicable.
-## RabbitMQ ##
-  - The rabbitmq/LCP.json in the repository is pre-configured:
-    - It is a StatefulSet service with a volume defined for /var/lib/rabbitmq to retain the RabbitMQ setup after a restart.
-    - Port 5672 is configured to be internal whereas port 15672 is configured to be external:
-      - The AMQP APIs use port 5672 to interact with the queues.
-      - The RabbitMQ administration GUI can be accessed from a browser using HTTPS with the credentials from rabbit-mq-default-user and rabbit-mq-default-pass secrets using the hostname from rabbitmq service > ingress endpoints.
 
 ## Setup ##
 - Setup Liferay PaaS secrets for RabbitMQ credentials
@@ -93,34 +69,7 @@ The POC uses the following github repositories:
     - The rabbitmq and rabbitmqlistener custom services are running.
     - The rabbitmqpublisher Client Extension custom service is running.
 
-## Triggering the Integration ##
-- Create a Liferay Objects record using the 'RabbitTest' Object Definition, populating the 'input' field, leaving the 'output' field empty, and Save.
-- This will trigger the Object Action to send a message to the RabbitMQ 'demo-queue' using the rabbitmypublisher Client Extension Object Action.
-- For simplicity, the message payload is the Liferay Object record JSON payload that is passed to the Object Action Client Extension.
-- The Listener class in rabbitmqlistener will listen for the messages in the RabbitMQ 'demo-queue' and when it receives one, it will extract the 'id' and 'input' values and use these to update the 'output' value using the headless REST API PATCH endpoint and the Headless Server OAuth 2 profile.
-- Wait 15 seconds (15 second sleep delay added for demo purposes) and refresh the Objects grid screen. The 'output' field of the Object Record should now be populated by the rabbitmqlistener custom service logic.
-- The rabbitmqpublisher and rabbitmqlistener components have logging to show what is happening.
-  - The classes have additional INFO logging for troubleshooting and demonstration purposes only enabled e.g. the JWT and the OAuth Access Token are logged. These should not normally be logged...
-  - If the message is processed successfully in rabbitmqlistener then it is moved to the 'processed-queue'.
-  - If the message is not processed successfully in rabbitmqlistener (e.g. due to an exception or missing JSON field or a non-200 response from the PATCH etc.) then it is moved to the 'error-queue'.
-  - Run this command from the RabbitMQ service shell to see the queue message counts:
-    - rabbitmqctl list_queues
-  - Run this command from the RabbitMQ service shell to view the first message from the processed-queue (without 'consuming' it):
-    - rabbitmqadmin --username=***\[rabbit-mq-default-user\]*** --password=***\[rabbit-mq-default-pass\]*** get queue=processed-queue count=1
-      - Replace ***\[rabbit-mq-default-user\]*** and ***\[rabbit-mq-default-pass\]*** with the corresponding secret values.
-- You can also check the queues in RabbitMQ (login with the rabbit-mq-default-user and rabbit-mq-default-pass secret values) with the hostname from rabbitmq service > ingress endpoints.
-
-## Summary ##
-- While this is a fairly basic example of asynchronous message processing:
-  - It shows the possibilities of integrating with RabbitMQ, whether RabbitMQ is deployed in Liferay PaaS, in Liferay SaaS or remote from Liferay.
-  - It shows how easy it is to send and receive RabbitMQ messages.
-  - It shows how the send and receive code can be integrated with the Liferay Client Extension architecture OR in non-Liferay code that supports RabbitMQ / AMQP etc.
-  - The rabbitmqlistener is deployed as a Liferay PaaS custom service for convenience:
-    - In a real world scenario the listener would be outside of Liferay PaaS and probably built with another framework or technologies.
-    - The use of a 'standalone' custom service shows that the listener can run completely outside of Liferay DXP, using OAuth 2 and the headless REST APIs to interact with Liferay DXP.
-  - And it was done without creating a single custom OSGi module.
-
-## Notes ##
+## Implementation Notes ##
 - This is a ‘proof of concept’ that is being provided ‘as is’ without any support coverage or warranty.
 - It was tested in Liferay PaaS with the Client Extension build pipeline feature enabled, using Liferay DXP QR 2025.Q1.14 with JDK 21 at compile time and runtime.
   - Ensure the DXP Cloud CI service is compiling with JDK 21 otherwise the Client Extension won't compile - see [Setting the JDK version](https://learn.liferay.com/w/dxp/cloud/platform-services/continuous-integration#setting-the-jdk-version).
@@ -133,7 +82,11 @@ The POC uses the following github repositories:
   - The RabbitMQ default credentials can be used by the publish and listener but using a dedicated account with limited permissions for the queue actions is more secure.
   - In a full system integration implementation where the publish and listener components are in seperate systems, they should each have their own credentials.
   - In the rabbitmw/LCP.json, port 5672 is configured to be internal whereas port 15672 is configured to be external:
-    - Make port 5672 public if the publisher or listener isn't on the Liferay PaaS environment private network.
+    - **Make port 5672 public if the publisher or listener isn't on the Liferay PaaS environment private network.**
+- Service dependencies
+  - I haven't defined LCP.json dependencies between custom or out of the box services.
+  - If external systems are dependent on the RabbitMQ custom service, consider not including it in the regular build with the other services, and using the LCP CLI tool to manage build and deployment of the RabbitMQ service independent of a 'regular build'.
+  - The RabbitMQ service uses the default 'RollingUpdate' deployment strategy which should avoid downtime during build deployments. See [Understanding Deployment Strategies](https://learn.liferay.com/w/dxp/cloud/updating-services-in-liferay-paas/understanding-deployment-strategies) for more details.
 - For the POC RabbitMQ is unclustered:
   - A RabbitMQ cluster is recommended to avoid RabbitMQ being a single point of failure.
   - A RabbitMQ cluster requires additional setup. Increasing the service scale will not result in a clustered RabbitMQ environment.
