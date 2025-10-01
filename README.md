@@ -29,7 +29,7 @@
         - Replace ***\[rabbit-mq-liferay-user\]*** and ***\[rabbit-mq-liferay-pass\]*** with the corresponding secret values.
 
 - Create the Liferay Object
-  - Create a Company scoped Liferay Object with Object Name 'RabbitTest' (plural RabbitTest) with the following fields and Publish it:
+  - Create a Company scoped Liferay Object with Object Name 'RabbitTest' (plural RabbitTests) with the following fields and Publish it:
     - Mandatory Long Text field with field name 'input'
     - Optional Long Text field with field name 'output'
   - Class RabbitMQListener in rabbit-mq-listener-jar module references this in a number of places e.g. objectEntryDTORabbitTest and /o/c/rabbittests/
