@@ -14,6 +14,7 @@
 - Deploy the RabbitMQ custom service and configure RabbitMQ
   - The rabbitmq/LCP.json in the repository is pre-configured, the memory and cpu can be reduced e.g. to 2048 and 1 respectively for demo purposes if Liferay PaaS resources are scarce.
   - Build and deploy the rabbitmq custom service in the Liferay PaaS environment.
+    - It may take an hour or more for the RabbitMQ Management console to be accessible but the RabbitMQ shell is accessible once the service has started.
   - rabbitmqctl and rabbitmqadmin commands can be run from the RabbitMQ service shell.
     - Run these commands from the RabbitMQ service shell to create the required message queues:
       - rabbitmqadmin --username=***\[rabbit-mq-default-user\]*** --password=***\[rabbit-mq-default-pass\]*** declare queue name=demo-queue durable=true
@@ -45,7 +46,7 @@
   - Add the following secrets using the values from the OAuth 2.0 Administration > Rabbit MQ Listener OAuth Application Headless Server
     - **listener-oauth-client-id**
     - **listener-oauth-client-secret**
-  - The secrets don't need to be manually mapped to individual services, the service LCP.json files use the @listener-oauth-client-xxxx syntax which will take care of the mappings.
+  - The secrets don't need to be manually mapped to individual services, the rabbitmqlistener service LCP.json files use the @listener-oauth-client-xxxx syntax which will take care of the mappings.
 
 - Build and deploy rabbitmqlistener
   - Build the com.mw.rabbit.mq.listener.jar-1.0.0.jar jar file (from separate repository https://github.com/michael-wall/rabbit-mq-demo-listener)
@@ -75,7 +76,7 @@
   - The RabbitMQ queues can be created programatically e.g. the first time they are accessed but the manual setup is included to give better visibility of the implementation.
   - The RabbitMQ default credentials can be used by the publish and listener but using a dedicated account with limited permissions for the queue actions is more secure.
   - In a full system integration implementation where the publish and listener components are in seperate systems, they should each have their own credentials.
-  - In the rabbitmw/LCP.json, port 5672 is configured to be internal whereas port 15672 is configured to be external:
+  - In the rabbitmq/LCP.json, port 5672 is configured to be internal whereas port 15672 is configured to be external:
     - **Make port 5672 public if the publisher or listener isn't on the Liferay PaaS environment private network.**
 - Service dependencies
   - The POC doesn't define LCP.json dependencies between the custom or out of the box services.
