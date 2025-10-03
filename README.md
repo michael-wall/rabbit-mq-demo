@@ -26,7 +26,7 @@
     - rabbitmqctl list_queues
   - Run these command from the RabbitMQ service shell to create the user that the publisher and listener components will use to connect to the queues:
     - rabbitmqctl add_user ***\[rabbit-mq-liferay-user\]*** ***\[rabbit-mq-liferay-pass\]***
-    - rabbitmqctl set_permissions -p / ***\[rabbit-mq-liferay-user\]*** "" ".*" ".*"
+    - rabbitmqctl set_permissions -p / ***\[rabbit-mq-liferay-user\]*** "" ".\*" ".\*"
         - Replace ***\[rabbit-mq-liferay-user\]*** and ***\[rabbit-mq-liferay-pass\]*** with the corresponding secret values.
 
 - Create the Liferay Object
