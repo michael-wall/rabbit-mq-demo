@@ -1,6 +1,6 @@
 ## Liferay PaaS and RabbitMQ with Objects, CX and custom services ##
 - A full end to end proof of content to integrate RabbitMQ in Liferay PaaS (and Liferay SaaS)
-- See for [Liferay PaaS and RabbitMQ with Objects, CX and custom services](https://learn.liferay.com/w/dxp/cloud/platform-services/using-a-custom-service) Blog Post for more details
+- See for [Liferay PaaS and RabbitMQ with Objects, CX and custom services](https://liferay.dev/b/liferay-paas-and-rabbitmq-with-objects-cx-and-custom-services) Blog Post for more details
 
 ## Detailed Setup Steps ##
 - Setup Liferay PaaS secrets for RabbitMQ credentials
